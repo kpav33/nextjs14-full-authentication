@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
 import Appbar from "./components/AppBar";
+import "react-toastify/dist/ReactToastify.css";
 
 import { Inter } from "next/font/google";
+import { ToastContainer } from "react-toastify";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -22,6 +24,7 @@ export default function RootLayout({
         <Providers>
           <Appbar />
           {children}
+          <ToastContainer />
         </Providers>
       </body>
     </html>

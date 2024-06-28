@@ -5,6 +5,7 @@ import React from "react";
 
 // npx prisma init --datasource-provider sqlite => Setup Prisma with Sqlite as database
 //  npx prisma migrate dev --name first migration => Don't forget to migrate prisma when adding changes to the schema!
+// npx prisma studio => Open Prisma studio
 
 export default function Home() {
   return (

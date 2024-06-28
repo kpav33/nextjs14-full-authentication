@@ -18,6 +18,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { passwordStrength } from "check-password-strength";
 
 import PasswordStrength from "./PasswordStrength";
+import { registerUser } from "@/lib/actions/authActions";
+import { toast } from "react-toastify";
 
 const FormSchema = z
   .object({
@@ -78,16 +80,17 @@ const SignUpForm = () => {
   const toggleVisiblePass = () => setIsVisiblePass((prev) => !prev);
 
   const saveUser: SubmitHandler<InputType> = async (data) => {
-    console.log(data);
+    // console.log(data);
+    // Only take the data that we need to user object
     const { accepted, confirmPassword, ...user } = data;
 
-    // try {
-    //   const result = await registerUser(user);
-    //   toast.success("The User Registered Successfully.");
-    // } catch (error) {
-    //   toast.error("Something Went Wrong!");
-    //   console.error(error);
-    // }
+    try {
+      const result = await registerUser(user);
+      toast.success("The User Registered Successfully!");
+    } catch (error) {
+      toast.error("Something Went Wrong!");
+      console.log(error);
+    }
   };
 
   return (
