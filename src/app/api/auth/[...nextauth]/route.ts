@@ -3,6 +3,7 @@ import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import * as bcrypt from "bcrypt";
 import NextAuth from "next-auth/next";
+import { User } from "@prisma/client";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -63,6 +64,18 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
+  // Modify type of user in next auth session and fill out the session from user model from Prisma, also check types.d.ts file in lib folder
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) token.user = user as User;
+      return token;
+    },
+
+    async session({ token, session }) {
+      session.user = token.user;
+      return session;
+    },
+  },
 };
 
 // Don't export handler directly, export as GET and POST
