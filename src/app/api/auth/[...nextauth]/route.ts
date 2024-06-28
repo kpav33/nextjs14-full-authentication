@@ -1,0 +1,71 @@
+import prisma from "@/lib/prisma";
+import { AuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import * as bcrypt from "bcrypt";
+import NextAuth from "next-auth/next";
+
+export const authOptions: AuthOptions = {
+  providers: [
+    CredentialsProvider({
+      name: "Credentials",
+
+      // Describes what our credentials are (user and password...) and next-auth can create auto build sign in form with this object
+      credentials: {
+        username: {
+          label: "User Name",
+          type: "text",
+          placeholder: "Your User Name",
+        },
+        password: {
+          label: "Password",
+          type: "password",
+        },
+      },
+
+      // Used to authorize the user, when they try to sign in, you could define a whitelist here, for user's that are allowed to sign in/register here
+      async authorize(credentials) {
+        const user = await prisma.user.findUnique({
+          where: {
+            email: credentials?.username,
+          },
+        });
+
+        // Throw error if user not found in database (user does not exist)
+        if (!user) {
+          throw new Error("User name or password is not correct.");
+        }
+
+        // This is naive way of comparing passwords, without hashing
+        // const isPasswordCorrect = (credentials?.password === user.password);
+
+        if (!credentials?.password) {
+          throw new Error("Please Provide Your Password");
+        }
+
+        // First argument needs to be unhashed user passed password, second argument is already hash of the password from database
+        const isPasswordCorrect = await bcrypt.compare(
+          credentials.password,
+          user.password
+        );
+
+        if (!isPasswordCorrect) {
+          throw new Error("User name or password is not correct");
+        }
+
+        // if (!user.emailVerified) {
+        //   throw new Error("Please verify your email first!");
+        // }
+
+        // Extract password from user object and return user without the password, because it is not safe to include the password in the returning user object
+        const { password, ...userWithoutPass } = user;
+        // This returning object will be sent to next-auth session and we will be able to check it
+        return userWithoutPass;
+      },
+    }),
+  ],
+};
+
+// Don't export handler directly, export as GET and POST
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST };
