@@ -57,9 +57,9 @@ export const authOptions: AuthOptions = {
           throw new Error("User name or password is not correct");
         }
 
-        // if (!user.emailVerified) {
-        //   throw new Error("Please verify your email first!");
-        // }
+        if (!user.emailVerified) {
+          throw new Error("Please verify your email first!");
+        }
 
         // Extract password from user object and return user without the password, because it is not safe to include the password in the returning user object
         const { password, ...userWithoutPass } = user;
