@@ -6,6 +6,10 @@ import NextAuth from "next-auth/next";
 import { User } from "@prisma/client";
 
 export const authOptions: AuthOptions = {
+  // Add a route to the custom Sign In page, instead of using default next-auth sign in page
+  pages: {
+    signIn: "/auth/signin",
+  },
   providers: [
     CredentialsProvider({
       name: "Credentials",

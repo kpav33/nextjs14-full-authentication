@@ -32,20 +32,21 @@ const SigninButton = () => {
           </Link>
         </>
       ) : (
-        // <>
-        //   <Button onClick={() => signIn()}>Sign In</Button>
-        //   <Button as={Link} href={"/auth/signup"}>
-        //     Sign Up
-        //   </Button>
-        // </>
         <>
-          <Button as={Link} href="/api/auth/signin">
-            Sign In
-          </Button>
-          <Button as={Link} href="/auth/signup">
+          {/* This will redirect us to sign in page, that we defined in catch all route */}
+          <Button onClick={() => signIn()}>Sign In</Button>
+          <Button as={Link} href={"/auth/signup"}>
             Sign Up
           </Button>
         </>
+        // <>
+        //   <Button as={Link} href="/api/auth/signin">
+        //     Sign In
+        //   </Button>
+        //   <Button as={Link} href="/auth/signup">
+        //     Sign Up
+        //   </Button>
+        // </>
       )}
     </div>
   );

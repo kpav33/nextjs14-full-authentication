@@ -7,6 +7,8 @@ import React from "react";
 //  npx prisma migrate dev --name first migration => Don't forget to migrate prisma when adding changes to the schema!
 // npx prisma studio => Open Prisma studio
 
+// Finished at 1:31
+
 export default function Home() {
   return (
     <main>
