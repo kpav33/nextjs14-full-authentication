@@ -7,6 +7,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 
 const ProfilePage = async () => {
+  // With client components use useSession hook, with server getServerSession function
   // Client component, retrieves session client side
   //   const { data: session } = useSession();
   //   console.log(session);
@@ -17,7 +18,12 @@ const ProfilePage = async () => {
   const user = session?.user;
   //   console.log("USER ", user);
 
-  //   if (!session || !session.user) redirect("/auth/signin");
+  // Protecting pages in this way works, but it has to be done in every page file, that we want to protect
+  // Instead we can use middleware to protect pages
+  // Redirect non-authed user
+  //   if (!session || !session.user) {
+  //     redirect("/auth/signin");
+  //   }
 
   return (
     <div>

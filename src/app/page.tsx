@@ -8,7 +8,6 @@ import React from "react";
 //  npx prisma migrate dev --name first migration => Don't forget to migrate prisma when adding changes to the schema!
 // npx prisma studio => Open Prisma studio
 
-// Finished at 2:37
 // Befree email body template
 // Mailtrap test smtp server
 
