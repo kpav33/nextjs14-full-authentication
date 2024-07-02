@@ -11,19 +11,10 @@ const SigninButton = () => {
   return (
     <div className="flex items-center gap-2">
       {session && session.user ? (
-        // <>
-        //   <Link
-        //     href={"/profile"}
-        //   >{`${session.user.firstName} ${session.user.lastName}`}</Link>
-        //   <Link
-        //     className="tex-sky-500 hover:text-sky-600 transition-colors"
-        //     href={"/api/auth/signout"}
-        //   >
-        //     Sign Out
-        //   </Link>
-        // </>
         <>
-          <p>{`${session.user.firstName} ${session.user.lastName}`}</p>
+          <Link
+            href={"/profile"}
+          >{`${session.user.firstName} ${session.user.lastName}`}</Link>
           <Link
             className="tex-sky-500 hover:text-sky-600 transition-colors"
             href={"/api/auth/signout"}
@@ -32,6 +23,15 @@ const SigninButton = () => {
           </Link>
         </>
       ) : (
+        // <>
+        //   <p>{`${session.user.firstName} ${session.user.lastName}`}</p>
+        //   <Link
+        //     className="tex-sky-500 hover:text-sky-600 transition-colors"
+        //     href={"/api/auth/signout"}
+        //   >
+        //     Sign Out
+        //   </Link>
+        // </>
         <>
           {/* This will redirect us to sign in page, that we defined in catch all route */}
           <Button onClick={() => signIn()}>Sign In</Button>

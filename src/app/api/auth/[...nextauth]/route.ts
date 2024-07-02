@@ -10,6 +10,13 @@ export const authOptions: AuthOptions = {
   pages: {
     signIn: "/auth/signin",
   },
+  // To fix JEWDecryptionFailed error we need to specify the strategy of keeping session of nextauth and add secret to jwt, after this fix you should be able to access session by using the getServerSession function
+  session: {
+    strategy: "jwt",
+  },
+  jwt: {
+    secret: process.env.NEXTAUTH_SECRET,
+  },
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -83,6 +90,7 @@ export const authOptions: AuthOptions = {
 };
 
 // Don't export handler directly, export as GET and POST
+// If you tried to pass handler instead of auth options to getServerSession you would get a null session
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
