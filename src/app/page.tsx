@@ -11,6 +11,8 @@ import React from "react";
 // Befree email body template
 // Mailtrap test smtp server
 
+// https://www.youtube.com/watch?v=Rs8018RO5YQ => Changes from next-auth v4 to v5 => npm by default still shows v4, v5 is pretty new probably best to keep to v4
+
 export default async function Home() {
   // await sendMail({
   //   to: "klemenpavlovic@gmail.com",
