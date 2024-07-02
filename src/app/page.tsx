@@ -26,3 +26,16 @@ export default async function Home() {
     </main>
   );
 }
+
+// The website doesnt work on production server, because of the Netlify serverless enviroment, we would have to make some changes, since we are using as database sqlite
+// Changes would have to be done in toml file and when setting up Prisma, not done here, since we won't be using sqlite for real apps, so its not worth changing
+// netlify.toml
+// [build]
+//   functions = "functions"
+
+// [functions]
+//   included_files = ["prisma/dev.db"]
+
+// # Optionally, you can specify for individual functions:
+// # [functions."my-function"]
+// #   included_files = ["prisma/dev.db"]
