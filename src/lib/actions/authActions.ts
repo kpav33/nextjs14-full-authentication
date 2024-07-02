@@ -4,7 +4,11 @@
 import { User } from "@prisma/client";
 import prisma from "../prisma";
 import * as bcrypt from "bcrypt";
-import { compileActivationTemplate, sendMail } from "../mail";
+import {
+  compileActivationTemplate,
+  sendMail,
+  compileResetPassTemplate,
+} from "../mail";
 import { signJwt, verifyJwt } from "../jwt";
 
 // Omit the id from the User type, since id is auto generated
@@ -53,3 +57,31 @@ export const activateUser: ActivateUserFunc = async (jwtUserID) => {
   });
   return "success";
 };
+
+export async function forgotPassword(email: string) {
+  // Check if user exists
+  const user = await prisma.user.findUnique({
+    where: {
+      email: email,
+    },
+  });
+
+  if (!user) throw new Error("The User Does Not Exist!");
+
+  //  Send Email with Password Reset Link
+  // Create jwt based on user id
+  const jwtUserId = signJwt({
+    id: user.id,
+  });
+
+  const resetPassUrl = `${process.env.NEXTAUTH_URL}/auth/resetPass/${jwtUserId}`;
+  const body = compileResetPassTemplate(user.firstName, resetPassUrl);
+  // const body = "hello world";
+  const sendResult = await sendMail({
+    to: user.email,
+    subject: "Reset Password",
+    body: body,
+  });
+
+  return sendResult;
+}

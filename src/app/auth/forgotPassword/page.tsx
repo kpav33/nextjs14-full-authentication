@@ -1,5 +1,4 @@
 "use client";
-// import { forgotPassword } from "@/lib/actions/authActions";
 import { EnvelopeIcon } from "@heroicons/react/20/solid";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Input } from "@nextui-org/react";
@@ -7,6 +6,7 @@ import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
+import { forgotPassword } from "@/lib/actions/authActions";
 
 const FormSchema = z.object({
   email: z.string().email("Please enter a valid email!"),
@@ -26,16 +26,20 @@ const ForgotPasswordPage = () => {
   });
 
   const submitRequest: SubmitHandler<InputType> = async (data) => {
-    console.log("Submit request: ", data);
+    // console.log("Submit request: ", data);
 
-    // try {
-    //   const result = await forgotPassword(data.email);
-    //   if (result) toast.success("Reset password link was sent to your email.");
-    //   reset();
-    // } catch (e) {
-    //   console.log(e);
-    //   toast.error("Something went wrong!");
-    // }
+    try {
+      // Call forgotPassword server action
+      const result = await forgotPassword(data.email);
+
+      if (result) toast.success("Reset password link was sent to your email.");
+
+      // Reset the form fields
+      reset();
+    } catch (e) {
+      console.log(e);
+      toast.error("Something went wrong!");
+    }
   };
 
   return (
